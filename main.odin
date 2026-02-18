@@ -7,8 +7,8 @@ import "core:os/os2"
 
 ProgramArgs :: struct {
 	input: string `flags:"input" usage:"The string to modify."`,
-	to_replace: string `flags:"replace" usage:"What should be replaced."`,
-	replacement: string `flags:"replacer" usage:"What should replace 'replace'."`,
+	to_replace: string `flags:"to-replace" usage:"What should be replaced."`,
+	replacement: string `flags:"replacement" usage:"What should replace 'replace'."`,
 }
 
 main :: proc () {
@@ -22,10 +22,11 @@ main :: proc () {
 
 	// If any of these are empty, the input is bad.
 	if "" == args.input || "" == args.to_replace || "" == args.replacement {
-		fmt.println("`input`, `replace`, or `replacer` were empty." +
+		fmt.println("`input`, `to-replace`, or `replacement` were empty." +
 		" These values should not be empty.")
 		os2.exit(1)
 	}
 
-	string_replace.process(args.input, args.to_replace, args.replacement)
+	result := string_replace.process(args.input, args.to_replace, args.replacement)
+	fmt.println(result)
 }

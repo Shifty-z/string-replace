@@ -18,6 +18,7 @@ main :: proc () {
 		flags.print_errors(ProgramArgs, parse_err,
 		"String Replace - Replaces content in `input`.",
 		.Odin)
+		os2.exit(1)
 	}
 
 	// If any of these are empty, the input is bad.

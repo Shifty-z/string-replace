@@ -4,6 +4,8 @@ import "../string_replace"
 import "core:testing"
 import "core:fmt"
 
+REPLACE_NOT_IN_INPUT_MESSAGE :: "'replace' was not found in 'input'"
+
 @(test)
 replace_single_letter_multiple_times :: proc (t: ^testing.T) {
 	input := "bingo bango bongo"
@@ -55,13 +57,12 @@ to_replace_longer_than_input :: proc (t: ^testing.T) {
 	to_replace := "inn"
 	replacement := "bingo was his name"
 	skip_count := 0
-	expected_result := ""
+	expected_result := REPLACE_NOT_IN_INPUT_MESSAGE
 
 	result := string_replace.process(input, to_replace, replacement, skip_count)
-	defer delete(result)
 
 	testing.expectf(t, result == expected_result,
-	"Result was: >%s< (an empty string)", result)
+	"Result was: %s", result)
 }
 
 @(test)
@@ -70,13 +71,12 @@ to_replace_not_found_in_input :: proc (t: ^testing.T) {
 	to_replace := "not"
 	replacement := "always"
 	skip_count := 0
-	expected_result := ""
+	expected_result := REPLACE_NOT_IN_INPUT_MESSAGE
 
 	result := string_replace.process(input, to_replace, replacement, skip_count)
-	defer delete(result)
 
 	testing.expectf(t, result == expected_result,
-	"Result was: >%s< (an empty string", result)
+	"Result was: %s", result)
 }
 
 @(test)

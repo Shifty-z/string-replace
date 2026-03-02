@@ -2,15 +2,15 @@ package string_replace
 
 import "core:strings"
 
-process :: proc (input, to_replace, replacement: string, skip_count: int) -> string {
-	if !strings.contains(input, to_replace) {
-		return ""
+process :: proc (input, replace, replacement: string, skip_count: int) -> string {
+	if !strings.contains(input, replace) {
+		return "'replace' was not found in 'input'"
 	}
 
 	// Length of input is likely a decent size to start with
 	replaced := strings.builder_make_len_cap(0, len(input))
 
-	// The number of to_replace elements we've skipped
+	// The number of replace elements we've skipped
 	tokens_skipped := 0
 
 	// Iterating over bytes rather than runes seems like a more natural
@@ -20,15 +20,15 @@ process :: proc (input, to_replace, replacement: string, skip_count: int) -> str
 
 		// Current character is not the start of your replacement
 		// window. Put what you have
-		if current_byte != to_replace[0] {
+		if current_byte != replace[0] {
 			strings.write_byte(&replaced, current_byte)
 			continue
 		}
 
-		// This is a sliding window. See if i to length of to_replace
+		// This is a sliding window. See if i to length of replace
 		// in `input_window` is something you need to change.
-		input_window := input[i: i + len(to_replace)]
-		found_match := input_window == to_replace
+		input_window := input[i: i + len(replace)]
+		found_match := input_window == replace
 		should_skip := tokens_skipped < skip_count
 
 		if found_match && should_skip {
@@ -38,7 +38,7 @@ process :: proc (input, to_replace, replacement: string, skip_count: int) -> str
 		}
 
 		if found_match && !should_skip{
-			i += len(to_replace) - 1
+			i += len(replace) - 1
 			strings.write_string(&replaced, replacement)
 			continue
 		}
